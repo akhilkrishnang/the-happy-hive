@@ -12,6 +12,7 @@ export interface HiveItem {
   dp_id?: string | null;
   created_at: string;
   updated_at: string;
+  formatted_dob?: string; // Optional field for formatted date of birth
 }
 
 export interface CreateHiveItemRequest {

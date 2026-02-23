@@ -8,17 +8,32 @@
       Birthday Wall
     </div>
     <div class="scrollable-list-panel">
-      @for (item of hiveItems(); track item.id) {
-      <div class="hive-item">
-        <div class="item-name">{{ item.name }}</div>
-        @if (item.dept) {
-        <div class="item-dept">{{ item.dept }}</div>
+      <ng-scrollbar>
+        @for (item of hiveItems(); track item.id) {
+        <div class="hive-item">
+          <div class="item-dob">
+            <div class="item-dob__date">
+              {{ item.formatted_dob?.split(' ')?.[0] }}
+            </div>
+            <div class="item-dob__month">
+              {{ item.formatted_dob?.split(' ')?.[1] }}
+            </div>
+          </div>
+          <div>
+            <div class="item-name">{{ item.name }}</div>
+            <div class="item-info">
+              <lucide-angular [size]="12" [img]="MapPinIcon"></lucide-angular> {{ item.dept }}
+              @if (item.about) {
+              <div class="item-about">
+                <lucide-angular [size]="12" [img]="HeartIcon"></lucide-angular> 
+                {{ item.about }}
+              </div>
+              }
+            </div>
+          </div>
+        </div>
         }
-        @if (item.about) {
-        <div class="item-about">{{ item.about }}</div>
-        }
-      </div>
-      }
+      </ng-scrollbar>
     </div>
   </div>
   <div class="right-panel"></div>

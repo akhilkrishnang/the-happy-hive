@@ -54,12 +54,13 @@
         }
     }
     .content-panel {
-        width: 50%;
+        width: 60%;
         margin-left: 50px;
         font-weight: 400;
         font-style: normal;
-        height: calc(100vh - 240px);
+        height: calc(100vh - 340px);
         padding: 30px;
+        color: #4c565a;
 
         .section-header {
             font-family: "Poiret One", sans-serif;
@@ -72,7 +73,60 @@
         .scrollable-list-panel {
             width: 100%;
             height: 100%;
-            overflow: auto;
+            padding: 36px;
+            box-sizing: border-box;
+            padding-left: 0;
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+
+            .hive-item {
+                display: flex;
+                gap: 25px;
+                margin-bottom: 15px;
+                border: 1px solid #adbe86;
+                border-radius: 13px;
+                padding: 10px;
+                width: 85%;
+
+                .item-dob {
+                    background: rgba(255, 255, 255, 0.3);
+                    width: 75px;
+                    border-radius: 5px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    .item-dob__date {
+                        font-size: 25px;
+                        color: #e06d75;
+                        font-weight: 500;
+                    }
+
+                    .item-dob__month {
+                        font-size: 13px;
+                        margin-top: -5px;
+                    }
+                }
+
+                .item-name {
+                    font-size: 22px;
+                    font-weight: 400;
+                }
+
+                .item-info {
+                    display: flex;
+                    gap: 3px;
+                    font-size: 13px;
+                    margin-top: 7px;
+                    font-weight: 400;
+
+                    .item-about {
+                        margin-left: 15px;
+                        font-weight: 300;
+                    }
+                }
+            }
         }
     }
     .illustration-panel img {

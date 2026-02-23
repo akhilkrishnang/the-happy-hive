@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Set margin and padding to 0 for consistency across browsers */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background: #ebe9e9;
+}

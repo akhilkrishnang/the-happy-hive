@@ -25,7 +25,7 @@
               <lucide-angular [size]="12" [img]="MapPinIcon"></lucide-angular> {{ item.dept }}
               @if (item.about) {
               <div class="item-about">
-                <lucide-angular [size]="12" [img]="HeartIcon"></lucide-angular> 
+                <lucide-angular [size]="12" [img]="HeartIcon"></lucide-angular>
                 {{ item.about }}
               </div>
               }
@@ -36,8 +36,56 @@
       </ng-scrollbar>
     </div>
   </div>
-  <div class="right-panel"></div>
-  <div class="bottom-panel"></div>
+  <div class="spotlight-panel">
+    <div class="section-header read-only">
+      What's up?
+    </div>
+    <div class="spotlight-list-panel">
+      @for (spotlight of spotlights(); track spotlight.id) {
+      <div class="spotlight-item">
+        @switch(spotlight.type) {
+          @case('achievement') {
+            <lucide-angular [size]="24" [img]="TrophyIcon"></lucide-angular>
+          }
+          @case('accolades') {
+            <lucide-angular [size]="24" [img]="AwardIcon"></lucide-angular>
+          }
+          @case('birthday') {
+            <lucide-angular [size]="24" [img]="CakeIcon"></lucide-angular>
+          }
+          @case('celebration') {
+            <lucide-angular [size]="24" [img]="PartyPopperIcon"></lucide-angular>
+          }
+          @case('announcement') {
+            <lucide-angular [size]="24" [img]="MegaphoneIcon"></lucide-angular>
+          }
+          @case('notification') {
+            <lucide-angular [size]="24" [img]="BellIcon"></lucide-angular>
+          }
+          @case('milestone') {
+            <lucide-angular [size]="24" [img]="StarIcon"></lucide-angular>
+          }
+          @case('promotion') {
+            <lucide-angular [size]="24" [img]="ZapIcon"></lucide-angular>
+          }
+          @case('idea') {
+            <lucide-angular [size]="24" [img]="LightbulbIcon"></lucide-angular>
+          }
+          @case('baby') {
+            <lucide-angular [size]="24" [img]="BabyIcon"></lucide-angular>
+          }
+          @case('event') {
+            <lucide-angular [size]="24" [img]="CalendarIcon"></lucide-angular>
+          }
+          @default {
+            <lucide-angular [size]="24" [img]="BellIcon"></lucide-angular>
+          }
+        }
+        <div class="spotlight-description">{{ spotlight.description }}</div>
+      </div>
+      }
+    </div>
+  </div>
   <div class="illustration-panel">
     <img class="read-only" src="images/hbd_illustration.svg" draggable="false">
   </div>

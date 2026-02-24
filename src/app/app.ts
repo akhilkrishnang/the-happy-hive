@@ -3,9 +3,9 @@ import { RouterOutlet } from '@angular/router';
 import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 import { CommonModule } from '@angular/common';
 import { DataProviderService } from './services/data-provider.service';
-import { HiveItem } from './types/api.types';
+import { HiveItem, Spotlight } from './types/api.types';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import {  LucideAngularModule, MapPin, Heart } from 'lucide-angular';
+import {  LucideAngularModule, MapPin, Heart, Trophy, Star, Gift, Cake, Award, Zap, Lightbulb, Megaphone, Bell, Baby, Calendar, PartyPopper } from 'lucide-angular';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +16,24 @@ import {  LucideAngularModule, MapPin, Heart } from 'lucide-angular';
 export class App implements OnInit {
   readonly MapPinIcon = MapPin;
   readonly HeartIcon = Heart;
+  readonly TrophyIcon = Trophy;
+  readonly StarIcon = Star;
+  readonly GiftIcon = Gift;
+  readonly CakeIcon = Cake;
+  readonly AwardIcon = Award;
+  readonly ZapIcon = Zap;
+  readonly LightbulbIcon = Lightbulb;
+  readonly MegaphoneIcon = Megaphone;
+  readonly BellIcon = Bell;
+  readonly BabyIcon = Baby;
+  readonly CalendarIcon = Calendar;
+  readonly PartyPopperIcon = PartyPopper;
   
   private readonly dataProvider = inject(DataProviderService);
   protected readonly title = signal('the-happy-hive');
   protected showLoader = signal(true);
   protected hiveItems = signal<HiveItem[]>([]);
+  protected spotlights = signal<Spotlight[]>([]);
   
   options: AnimationOptions = {
     path: '/lotties/thh_loader.json',
@@ -29,6 +42,7 @@ export class App implements OnInit {
 
   ngOnInit() {
     this.loadHiveItems();
+    this.loadSpotlights();
   }
 
   private loadHiveItems(): void {
@@ -38,7 +52,7 @@ export class App implements OnInit {
         // Hide loader after items are loaded
         setTimeout(() => {
           this.showLoader.set(false);
-        }, 3000);
+        }, 4000);
       },
       error: (error: any) => {
         console.error('Failed to load hive items:', error);
@@ -48,6 +62,19 @@ export class App implements OnInit {
         setTimeout(() => {
           this.showLoader.set(false);
         }, 1000);
+      },
+    });
+  }
+
+  private loadSpotlights(): void {
+    this.dataProvider.getSpotlights().subscribe({
+      next: (spotlights: Spotlight[]) => {
+        this.spotlights.set(spotlights);
+        console.log('Spotlights loaded:', spotlights);
+      },
+      error: (error: any) => {
+        console.error('Failed to load spotlights:', error);
+        this.spotlights.set([]);
       },
     });
   }

@@ -16,43 +16,15 @@
 }
 
 .app-container {
+    position: relative;
     opacity: 0;
     animation: fadeIn 0.5s ease-out 1 forwards;
 
     background: #e6e6e6;
     height: 100vh;
     width: 100vw;
+    display: flex;
 
-    .footer-panel {
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        justify-content: right;
-        gap: 20px;
-
-        &__logo img {
-            width: 140px;
-        }
-
-        &__msg {
-            width: 500px;
-            font-size: 20px;
-            color: #686868;
-            font-family: "Englebert", cursive;
-            font-weight: 400;
-            font-style: normal;
-            text-align: right;
-
-            &--highlight {
-                color: #a1af7d;
-            }
-        }
-    }
     .content-panel {
         width: 60%;
         margin-left: 50px;
@@ -129,12 +101,84 @@
             }
         }
     }
+
+    .spotlight-panel {
+        width: 35%;
+        font-weight: 400;
+        font-style: normal;
+        height: calc(100vh - 340px);
+        padding: 30px;
+        color: #4c565a;
+
+        .section-header {
+            font-family: "Poiret One", sans-serif;
+            font-size: 50px;
+            height: 87px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: end;
+        }
+
+        .spotlight-list-panel {
+            width: 100%;
+            height: 100%;
+            padding: 36px;
+            box-sizing: border-box;
+            padding-left: 0;
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+
+            .spotlight-item {
+                display: flex;
+                gap: 25px;
+                justify-content: start;
+                align-items: anchor-center;
+                margin-bottom: 25px;
+                font-size: 15px;
+                width: 80%;
+                border-left: 3px solid #e8a45d;
+                padding-left: 15px;
+            }
+        }
+    }
+
     .illustration-panel img {
         width: 280px;
         position: absolute;
         bottom: 0;
         left: 0;
         opacity: 0.8;
+    }
+
+    .footer-panel {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        justify-content: right;
+        gap: 20px;
+
+        &__logo img {
+            width: 140px;
+        }
+
+        &__msg {
+            width: 500px;
+            font-size: 20px;
+            color: #686868;
+            font-family: "Englebert", cursive;
+            font-weight: 400;
+            font-style: normal;
+            text-align: right;
+
+            &--highlight {
+                color: #a1af7d;
+            }
+        }
     }
 }
 
@@ -150,4 +194,45 @@
 .read-only {
     pointer-events: none;
     user-select: none;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+        height: auto;
+
+        .content-panel {
+            width: 100%;
+            margin: 0;
+            height: 500px;
+        }
+
+        .spotlight-panel {
+            width: 100%;
+            height: 400px;
+        }
+
+        .illustration-panel {
+            display: flex;
+            justify-content: center;
+
+            img {
+                width: 200px;
+                position: relative;
+            }
+        }
+
+        .footer-panel {
+            position: relative;
+            flex-direction: column;
+            padding: 0 50px;
+
+            &__msg {
+                text-align: center;
+                margin-top: 10px;
+                width: auto;
+            }
+        }            
+    }
 }

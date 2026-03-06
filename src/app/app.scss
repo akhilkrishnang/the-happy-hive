@@ -20,18 +20,18 @@
     opacity: 0;
     animation: fadeIn 0.5s ease-out 1 forwards;
 
-    background: #e6e6e6;
+    background: #fffbf2;
     height: 100vh;
     width: 100vw;
     display: flex;
 
     .content-panel {
-        width: 60%;
+        width: 55%;
         margin-left: 50px;
         font-weight: 400;
         font-style: normal;
-        height: calc(100vh - 340px);
-        padding: 30px;
+        height: calc(100vh - 220px);
+        padding: 10px;
         color: #4c565a;
 
         .section-header {
@@ -55,13 +55,13 @@
                 display: flex;
                 gap: 25px;
                 margin-bottom: 15px;
-                border: 1px solid #adbe86;
                 border-radius: 13px;
                 padding: 10px;
                 width: 85%;
+                background: rgba(255, 251, 242, 0.7);
 
                 .item-dob {
-                    background: rgba(255, 255, 255, 0.3);
+                    background: rgba(255, 202, 202, 0.3);
                     width: 75px;
                     border-radius: 5px;
                     display: flex;
@@ -106,8 +106,8 @@
         width: 35%;
         font-weight: 400;
         font-style: normal;
-        height: calc(100vh - 340px);
-        padding: 30px;
+        height: calc(100vh - 240px);
+        padding: 10px;
         color: #4c565a;
 
         .section-header {
@@ -133,11 +133,12 @@
                 gap: 25px;
                 justify-content: start;
                 align-items: anchor-center;
-                margin-bottom: 25px;
-                font-size: 15px;
+                margin-bottom: 10px;
+                font-size: 14px;
                 width: 80%;
                 border-left: 3px solid #e8a45d;
                 padding-left: 15px;
+                margin-bottom: 20px;
             }
         }
     }
@@ -147,7 +148,7 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        opacity: 0.8;
+        opacity: 0.3;
     }
 
     .footer-panel {
@@ -160,17 +161,16 @@
         right: 0;
         bottom: 0;
         justify-content: right;
-        gap: 20px;
 
         &__logo img {
             width: 140px;
         }
 
         &__msg {
-            width: 500px;
-            font-size: 20px;
+            width: 400px;
+            font-size: 17px;
             color: #686868;
-            font-family: "Englebert", cursive;
+            font-family: Englebert, cursive;
             font-weight: 400;
             font-style: normal;
             text-align: right;
@@ -195,6 +195,16 @@
     pointer-events: none;
     user-select: none;
 }
+
+.fade-in-animation {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 // Responsive adjustments
 @media (max-width: 768px) {
@@ -233,6 +243,6 @@
                 margin-top: 10px;
                 width: auto;
             }
-        }            
+        }
     }
 }

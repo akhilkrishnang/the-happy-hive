@@ -42,44 +42,44 @@
     </div>
     <div class="spotlight-list-panel">
       @for (spotlight of spotlights(); track spotlight.id) {
-      <div class="spotlight-item">
+      <div class="spotlight-item" animate.enter="fade-in-animation">
         @switch(spotlight.type) {
-          @case('achievement') {
-            <lucide-angular [size]="24" [img]="TrophyIcon"></lucide-angular>
-          }
-          @case('accolades') {
-            <lucide-angular [size]="24" [img]="AwardIcon"></lucide-angular>
-          }
-          @case('birthday') {
-            <lucide-angular [size]="24" [img]="CakeIcon"></lucide-angular>
-          }
-          @case('celebration') {
-            <lucide-angular [size]="24" [img]="PartyPopperIcon"></lucide-angular>
-          }
-          @case('announcement') {
-            <lucide-angular [size]="24" [img]="MegaphoneIcon"></lucide-angular>
-          }
-          @case('notification') {
-            <lucide-angular [size]="24" [img]="BellIcon"></lucide-angular>
-          }
-          @case('milestone') {
-            <lucide-angular [size]="24" [img]="StarIcon"></lucide-angular>
-          }
-          @case('promotion') {
-            <lucide-angular [size]="24" [img]="ZapIcon"></lucide-angular>
-          }
-          @case('idea') {
-            <lucide-angular [size]="24" [img]="LightbulbIcon"></lucide-angular>
-          }
-          @case('baby') {
-            <lucide-angular [size]="24" [img]="BabyIcon"></lucide-angular>
-          }
-          @case('event') {
-            <lucide-angular [size]="24" [img]="CalendarIcon"></lucide-angular>
-          }
-          @default {
-            <lucide-angular [size]="24" [img]="BellIcon"></lucide-angular>
-          }
+        @case('achievement') {
+        <lucide-angular [size]="24" [img]="TrophyIcon"></lucide-angular>
+        }
+        @case('accolades') {
+        <lucide-angular [size]="24" [img]="AwardIcon"></lucide-angular>
+        }
+        @case('birthday') { 
+        <lucide-angular [size]="24" [img]="CakeIcon"></lucide-angular>
+        }
+        @case('celebration') {
+        <lucide-angular [size]="24" [img]="PartyPopperIcon"></lucide-angular>
+        }
+        @case('announcement') {
+        <lucide-angular [size]="24" [img]="MegaphoneIcon"></lucide-angular>
+        }
+        @case('notification') {
+        <lucide-angular [size]="24" [img]="BellIcon"></lucide-angular>
+        }
+        @case('milestone') {
+        <lucide-angular [size]="24" [img]="StarIcon"></lucide-angular>
+        }
+        @case('promotion') {
+        <lucide-angular [size]="24" [img]="ZapIcon"></lucide-angular>
+        }
+        @case('idea') {
+        <lucide-angular [size]="24" [img]="LightbulbIcon"></lucide-angular>
+        }
+        @case('baby') {
+        <lucide-angular [size]="24" [img]="BabyIcon"></lucide-angular>
+        }
+        @case('event') {
+        <lucide-angular [size]="24" [img]="CalendarIcon"></lucide-angular>
+        }
+        @default {
+        <lucide-angular [size]="24" [img]="BellIcon"></lucide-angular>
+        }
         }
         <div class="spotlight-description">{{ spotlight.description }}</div>
       </div>

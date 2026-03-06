@@ -22,7 +22,10 @@
           <div>
             <div class="item-name">{{ item.name }}</div>
             <div class="item-info">
-              <lucide-angular [size]="12" [img]="MapPinIcon"></lucide-angular> {{ item.dept }}
+              <div class="item-dp">
+                <lucide-angular [size]="12" [img]="MapPinIcon"></lucide-angular>
+                {{ item.dept }}
+              </div>  
               @if (item.about) {
               <div class="item-about">
                 <lucide-angular [size]="12" [img]="HeartIcon"></lucide-angular>
@@ -50,7 +53,7 @@
         @case('accolades') {
         <lucide-angular [size]="24" [img]="AwardIcon"></lucide-angular>
         }
-        @case('birthday') { 
+        @case('birthday') {
         <lucide-angular [size]="24" [img]="CakeIcon"></lucide-angular>
         }
         @case('celebration') {

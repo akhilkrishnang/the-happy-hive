@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, signal, OnInit, inject, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,8 @@ import { LucideAngularModule, MapPin, Heart, Trophy, Star, Gift, Cake, Award, Za
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
+export class App implements OnInit, OnDestroy {
+
   readonly MapPinIcon = MapPin;
   readonly HeartIcon = Heart;
   readonly TrophyIcon = Trophy;
@@ -72,8 +73,10 @@ export class App implements OnInit {
     this.dataProvider.getSpotlights().subscribe({
       next: (spotlights: Spotlight[]) => {
         this.allSpotlightsResponse = spotlights;
-        this.updateDisplayedItems();
-        this.startRotation();
+        setTimeout(() => {
+          this.updateDisplayedItems();
+          this.startRotation();
+        }, 4000);
       },
       error: (error: any) => {
         console.error('Failed to load spotlights:', error);
@@ -94,7 +97,7 @@ export class App implements OnInit {
   rotateArray(steps: number): void {
     const n = this.allSpotlightsResponse.length;
     // Normalize steps in case it's larger than array length
-    steps %= n; 
+    steps %= n;
     // Remove the first 'steps' elements and add them to the end
     const rotatedElements = this.allSpotlightsResponse.splice(0, steps);
     this.allSpotlightsResponse.push(...rotatedElements);
@@ -110,45 +113,51 @@ export class App implements OnInit {
   //Also sort it based on the DOB in ascending order of date & month (ignoring the year)
   //If item DOB is passed month in this year, it should be queued at end of the list
   private _formatHiveItems(items: HiveItem[]): HiveItem[] {
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
 
-  const now = new Date();
-  const currentMonth = now.getMonth();
+    const now = new Date();
+    const currentMonth = now.getMonth();
 
-  const formattedItems = items.map(item => {
-    if (item.dob) {
-      const date = new Date(item.dob);
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = months[date.getMonth()];
-      const isMonthPassed = date.getMonth() < currentMonth;
-      return { ...item, formatted_dob: `${day} ${month}`, isMonthPassed };
+    const formattedItems = items.map(item => {
+      if (item.dob) {
+        const date = new Date(item.dob);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = months[date.getMonth()];
+        const isMonthPassed = date.getMonth() < currentMonth;
+        return { ...item, formatted_dob: `${day} ${month}`, isMonthPassed };
+      }
+      return { ...item, isMonthPassed: false };
+    });
+
+    // Separate items: current month passed and others
+    const passedMonthItems = formattedItems.filter(item => item.isMonthPassed);
+    const otherItems = formattedItems.filter(item => !item.isMonthPassed);
+
+    // Sort other items by formatted DOB
+    otherItems.sort((a, b) => {
+      if (!a.formatted_dob || !b.formatted_dob) return 0;
+      const [dayA, monthA] = a.formatted_dob.split(' ');
+      const [dayB, monthB] = b.formatted_dob.split(' ');
+
+      const monthIndexA = months.indexOf(monthA);
+      const monthIndexB = months.indexOf(monthB);
+
+      if (monthIndexA === monthIndexB) {
+        return parseInt(dayA) - parseInt(dayB);
+      }
+      return monthIndexA - monthIndexB;
+    });
+
+    // Return other items first, then passed month items at the end
+    return [...otherItems, ...passedMonthItems];
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
     }
-    return { ...item, isMonthPassed: false };
-  });
-
-  // Separate items: current month passed and others
-  const passedMonthItems = formattedItems.filter(item => item.isMonthPassed);
-  const otherItems = formattedItems.filter(item => !item.isMonthPassed);
-
-  // Sort other items by formatted DOB
-  otherItems.sort((a, b) => {
-    if (!a.formatted_dob || !b.formatted_dob) return 0;
-    const [dayA, monthA] = a.formatted_dob.split(' ');
-    const [dayB, monthB] = b.formatted_dob.split(' ');
-
-    const monthIndexA = months.indexOf(monthA);
-    const monthIndexB = months.indexOf(monthB);
-
-    if (monthIndexA === monthIndexB) {
-      return parseInt(dayA) - parseInt(dayB);
-    }
-    return monthIndexA - monthIndexB;
-  });
-
-  // Return other items first, then passed month items at the end
-  return [...otherItems, ...passedMonthItems];
-}
+  }
 }

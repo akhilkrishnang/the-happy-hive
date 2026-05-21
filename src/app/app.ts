@@ -136,8 +136,8 @@ export class App implements OnInit, OnDestroy {
     const passedMonthItems = formattedItems.filter(item => item.isMonthPassed);
     const otherItems = formattedItems.filter(item => !item.isMonthPassed);
 
-    // Sort other items by formatted DOB
-    otherItems.sort((a, b) => {
+    // Sort function for formatting DOB
+    const sortByDob = (a: any, b: any) => {
       if (!a.formatted_dob || !b.formatted_dob) return 0;
       const [dayA, monthA] = a.formatted_dob.split(' ');
       const [dayB, monthB] = b.formatted_dob.split(' ');
@@ -149,7 +149,11 @@ export class App implements OnInit, OnDestroy {
         return parseInt(dayA) - parseInt(dayB);
       }
       return monthIndexA - monthIndexB;
-    });
+    };
+
+    // Sort both other items and passed month items by formatted DOB
+    otherItems.sort(sortByDob);
+    passedMonthItems.sort(sortByDob);
 
     // Return other items first, then passed month items at the end
     return [...otherItems, ...passedMonthItems];

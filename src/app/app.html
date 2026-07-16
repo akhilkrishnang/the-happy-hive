@@ -1,4 +1,12 @@
-<div class="logo-loader-container" [class.fade-out]="!showLoader()">
+<div
+  class="logo-loader-container"
+  [class.fade-out]="!showLoader()"
+  (click)="skipLoader()"
+  role="button"
+  tabindex="0"
+  (keydown.enter)="skipLoader()"
+  (keydown.space)="skipLoader(); $event.preventDefault()"
+>
   <ng-lottie [options]="options" />
 </div>
 @if(!showLoader()){

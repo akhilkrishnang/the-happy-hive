@@ -1,5 +1,6 @@
 import { Component, signal, OnInit, inject, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 import { CommonModule } from '@angular/common';
 import { DataProviderService } from './services/data-provider.service';
@@ -44,24 +45,33 @@ export class App implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this.loadHiveItems();
-    this.loadSpotlights();
+    this.loadInitialData();
   }
 
-  private loadHiveItems(): void {
-    this.dataProvider.getHiveItems().subscribe({
-      next: (items: HiveItem[]) => {
-        this.hiveItems.set(this._formatHiveItems(items));
-        // Hide loader after items are loaded
+  skipLoader(): void {
+    this.showLoader.set(false);
+  }
+
+  private loadInitialData(): void {
+    forkJoin({
+      hiveItems: this.dataProvider.getHiveItems(),
+      spotlights: this.dataProvider.getSpotlights(),
+    }).subscribe({
+      next: ({ hiveItems, spotlights }) => {
+        this.hiveItems.set(this._formatHiveItems(hiveItems));
+        this.allSpotlightsResponse = spotlights;
+        this.addDefaultSpotlights();
         setTimeout(() => {
+          this.updateDisplayedItems();
+          this.startRotation();
           this.showLoader.set(false);
         }, 4000);
       },
       error: (error: any) => {
-        console.error('Failed to load hive items:', error);
-        // Ensure signal has empty array on error
+        console.error('Failed to load initial data:', error);
         this.hiveItems.set([]);
-        // Hide loader even on error after delay
+        this.allSpotlightsResponse = [];
+        this.spotlights.set([]);
         setTimeout(() => {
           this.showLoader.set(false);
         }, 1000);
@@ -69,20 +79,41 @@ export class App implements OnInit, OnDestroy {
     });
   }
 
-  private loadSpotlights(): void {
-    this.dataProvider.getSpotlights().subscribe({
-      next: (spotlights: Spotlight[]) => {
-        this.allSpotlightsResponse = spotlights;
-        setTimeout(() => {
-          this.updateDisplayedItems();
-          this.startRotation();
-        }, 4000);
+  private addDefaultSpotlights(): void {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+    const lastWednesday = new Date(lastDayOfMonth);
+
+    const dayOfWeek = lastWednesday.getDay();
+    const daysToSubtract = (dayOfWeek - 3 + 7) % 7;
+    lastWednesday.setDate(lastDayOfMonth.getDate() - daysToSubtract);
+
+    const birthdaysInCurrentMonth = this.hiveItems().filter((item) => {
+      if (!item.dob) {
+        return false;
+      }
+
+      const dob = new Date(item.dob);
+      return dob.getMonth() === currentMonth;
+    }).length;
+
+    const meetupDate = `${lastWednesday.getDate()} ${lastWednesday.toLocaleString('en-US', { month: 'short' })}`;
+    const description1 = `Monthly meetup planned on ${meetupDate}. `;
+    const description2 = `We have ${birthdaysInCurrentMonth} b'days to celebrate`;
+
+    this.allSpotlightsResponse = [
+      ...this.allSpotlightsResponse,
+      {
+        id: Date.now(),
+        description: birthdaysInCurrentMonth > 0 ? (description1 + description2) : description1,
+        type: 'birthday',
+        expiry: '',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       },
-      error: (error: any) => {
-        console.error('Failed to load spotlights:', error);
-        this.spotlights.set([]);
-      },
-    });
+    ];
   }
 
   startRotation(): void {
